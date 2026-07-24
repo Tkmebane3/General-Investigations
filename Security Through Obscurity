@@ -1,0 +1,48 @@
+# Security Through Obscurity - Resource Hiding
+
+## Summary
+Web server logs identified repeated HTTP requests targeting administrative panels, configuration files, and common application endpoints. The activity was consistent with automated reconnaissance intended to enumerate existing resources.
+
+## Objective
+Reduce information disclosure by preventing unauthorized users from determining whether sensitive resources exist.
+
+## Analysis
+During reconnaissance, attackers commonly distinguish between existing and non-existent resources by analyzing HTTP response codes.
+
+Typical responses include:
+
+| Status Code | Information Disclosed |
+|-------------|-----------------------|
+| 200 OK | Resource exists and is accessible |
+| 401 Unauthorized | Resource exists but requires authentication |
+| 403 Forbidden | Resource exists but access is denied |
+| 404 Not Found | Resource cannot be confirmed to exist |
+
+Returning HTTP 401 or 403 for sensitive endpoints confirms the existence of those resources, allowing attackers to enumerate administrative interfaces and protected functionality.
+
+## Security Recommendation
+Implement resource hiding by returning **HTTP 404 Not Found** for unauthorized requests to sensitive endpoints instead of HTTP 401 Unauthorized or HTTP 403 Forbidden.
+
+This approach reduces information disclosure by preventing attackers from confirming the existence of protected resources while maintaining authentication and authorization controls for legitimate users.
+
+## Example Implementation (FastAPI)
+```python
+from fastapi import FastAPI, HTTPException
+
+app = FastAPI()
+
+@app.get("/admin")
+def admin(authenticated: bool = False):
+    if not authenticated:
+        raise HTTPException(status_code=404)
+
+    return {"message": "Admin Portal"}
+```
+
+## Assessment
+Resource hiding does not replace authentication or authorization. Instead, it serves as a defense-in-depth control that limits reconnaissance by concealing sensitive application endpoints from unauthorized users.
+
+## References
+- OWASP: Information Exposure
+- Principle of Least Information Disclosure
+- Defense in Depth
