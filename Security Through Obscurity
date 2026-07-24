@@ -17,7 +17,7 @@ During reconnaissance, attackers commonly
 distinguish between existing and 
 non-existent resources by analyzing HTTP response codes.
 
-Typical responses include:
+Responses include:
 
 | Status Code | Information Disclosed |
 |-------------|-----------------------|
