@@ -1,0 +1,36 @@
+## Potential Phishing Email Investigation 7/22/26
+### Summary
+A potential phishing email from an unknown sender with an Outlook email address contained an unexpected attachment (`p3XT5.jpg`). Although the email successfully passed SPF, DKIM, and DMARC authentication, the unsolicited nature of the message warranted further investigation.
+
+### Email Authentication
+- SPF: PASS
+- DKIM: PASS
+- DMARC: PASS
+
+Authentication confirmed the sending domain was authorized and the message integrity was preserved. This does not establish the legitimacy or trustworthiness of the sender.
+
+### Attachment Analysis
+**Filename:** `p3XT5.jpg`
+
+**VirusTotal**
+- 0 malware detections across scanned engines
+- File type: `Unknown`
+- Magic: `data`
+
+**Local Analysis**
+- SHA-256 hash calculated.
+- Hex dump reviewed using `Format-Hex`.
+- File header did not contain the expected JPEG signature (`FF D8 FF`).
+- File contents were inconsistent with a standard JPEG image.
+
+### Assessment
+No evidence of known malware was identified during reputation or antivirus analysis. However, the attachment's file structure was inconsistent with its `.jpg` extension, and the file could not be identified as a valid JPEG by VirusTotal or file signature analysis.
+
+### Conclusion
+The attachment could not be validated as a legitimate JPEG image. While no malicious indicators were identified, the combination of an unsolicited sender, unexpected attachment, and inconsistent file characteristics justified treating the email as suspicious. The recommended action is to disregard the message and avoid interacting with the attachment.
+
+## Recommendations
+- Do not open or interact with the attachment.
+- Delete or quarantine the email.
+- Monitor for additional messages from the sender or domain.
+- If additional emails exhibiting similar characteristics are observed, consider blocking the sender or domain and conduct a broader email search across the environment.
